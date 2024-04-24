@@ -12,7 +12,7 @@ class Wardrobe //interface
 };
 
 
-class Garment : public Wardrobe //abstract class
+class Garment : virtual public Wardrobe //abstract class
 {
 protected:
     std::string garmentCode;
@@ -31,6 +31,18 @@ public:
     std::string getColor() const override
     {
         return garmentColor;
+    }
+    ~Garment() {}
+    // non-virtual function which verifies if the pieces of clothing have the same color
+    bool isSameColor(const Garment& other) const
+    {
+        return garmentColor == other.garmentColor;
+    }
+
+    // non-virtual function which verifies if the pieces of clothing are the same type
+    bool isSameType(const Garment& other) const
+    {
+        return typeid(*this) == typeid(other);
     }
 };
 
@@ -52,6 +64,7 @@ public:
     {
         std::cout << "This is a blouse" << std::endl;
     }
+    ~Blouse() {}
 };
 
 class Dress : public Garment
@@ -72,6 +85,7 @@ public:
     {
         std::cout << "This is a dress" << std::endl;
     }
+    ~Dress() {}
 };
 
 class Skirt : public Garment
@@ -92,6 +106,7 @@ public:
     {
         std::cout << "This is a skirt" << std::endl;
     }
+    ~Skirt() {}
 };
 
 class Pants : public Garment
@@ -112,6 +127,7 @@ public:
     {
         std::cout << "These are pants" << std::endl;
     }
+    ~Pants() {}
 };
 
 //using interface
