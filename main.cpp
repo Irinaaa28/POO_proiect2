@@ -1,8 +1,19 @@
 #include <iostream>
 #include <string>
+#include <cctype>
+#include <cstring>
+
+std::string toLower(const std::string& str) 
+{
+    std::string result = str;
+    for (char& c : result) 
+        c = tolower(c);
+    return result;
+}
 
 class Wardrobe //interface
 {
+public:
     //pure virtual functions
     virtual void describe() const = 0;
     virtual void describe_reverse() const = 0;
@@ -18,11 +29,12 @@ protected:
     std::string garmentCode;
     std::string garmentColor;
 public:
-    Garment(const std::string& garmentCode, const std::string& garmentColor): garmentCode(garmentCode), garmentColor(garmentColor) {}
+    Garment(const std::string& garmentCode, const std::string& garmentColor): garmentCode(garmentCode), garmentColor(garmentColor) {} //constructor
     //pure virtual functions
     virtual void describe() const = 0;
     virtual void describe_reverse() const = 0;
     virtual void garment_type() const = 0;
+    virtual void addedGarment() const = 0;
     //implementing some functions from interface
     std::string getCode() const override
     {
@@ -64,7 +76,11 @@ public:
     {
         std::cout << "This is a blouse" << std::endl;
     }
-    ~Blouse() {/*std::cout << "Destructor for blouse" << std::endl;*/}
+    void addedGarment() const override
+    {
+        std::cout << "Blouse added successfully!" << std::endl;
+    }
+    ~Blouse() = default; //{/*std::cout << "Destructor for blouse" << std::endl;*/}
 };
 
 class Dress : public Garment
@@ -85,7 +101,11 @@ public:
     {
         std::cout << "This is a dress" << std::endl;
     }
-    ~Dress() {/*std::cout << "Destructor for dress" << std::endl;*/}
+    void addedGarment() const override
+    {
+        std::cout << "Dress added successfully!" << std::endl;
+    }
+    ~Dress() = default; //{/*std::cout << "Destructor for dress" << std::endl;*/}
 };
 
 class Skirt : public Garment
@@ -106,7 +126,11 @@ public:
     {
         std::cout << "This is a skirt" << std::endl;
     }
-    ~Skirt() {/*std::cout << "Destructor for skirt" << std::endl;*/}
+    void addedGarment() const override
+    {
+        std::cout << "Skirt added successfully!" << std::endl;
+    }
+    ~Skirt() = default; //{/*std::cout << "Destructor for skirt" << std::endl;*/}
 };
 
 class Pants : public Garment
@@ -127,7 +151,11 @@ public:
     {
         std::cout << "These are pants" << std::endl;
     }
-    ~Pants() {/*std::cout << "Destructor for pants" << std::endl;*/}
+    void addedGarment() const override
+    {
+        std::cout << "Pants added successfully!" << std::endl;
+    }
+    ~Pants() = default; //{/*std::cout << "Destructor for pants" << std::endl;*/}
 };
 
 class Barbie
@@ -147,24 +175,28 @@ public:
         currentBlouse = blouse;
         garmentCount++;
         numberOfChanges++;
+        blouse.addedGarment();
     }
     void addDress(const Dress& dress)
     {
         currentDress = dress;
         garmentCount++;
         numberOfChanges++;
+        dress.addedGarment();
     }
     void addSkirt(const Skirt& skirt)
     {
         currentSkirt = skirt;
         garmentCount++;
         numberOfChanges++;
+        skirt.addedGarment();
     }
     void addPants(const Pants& pants)
     {
         currentPants = pants;
         garmentCount++;
         numberOfChanges++;
+        pants.addedGarment();
     }
     static int GetGarmentCount(void)
     {
@@ -178,6 +210,7 @@ public:
             std::cout << "You've made " << numberOfChanges << " change at Barbie's look so far." << std::endl;
         else std::cout << "You've made " << numberOfChanges << " changes at Barbie's look so far." << std::endl;
     }
+    ~Barbie() = default;
 };
 
 int Barbie::garmentCount = 0;
@@ -208,6 +241,107 @@ int main()
     Dress noneD("none", "none");
     Skirt noneS("none", "none");
     Pants noneP("none", "none");
+    Barbie myBarbie(noneB, noneD, noneS, noneP);
+
+    char key;
+    bool continuegame;
+    std::cout << "Press any key to start dressing up Barbie: " << std::endl; 
+    std::cin >> key;
+    std::cout << "Do you want to change Barbie's look? \n Yes (1) \t No (0)" << std::endl;
+    std::cin >> continuegame;
+    if (continuegame == 1)
+    {
+        std::cout << "Great! So let's get started\nOpen your mind and create the best outfit for Barbie!\n";
+        while (continuegame == 1)
+        {
+            bool addClothes;
+            std::cout << "Do you want to add some clothes?\nYes(1) \t No(0)" << std::endl;
+            std::cin >> addClothes;
+            while (addClothes)
+            {
+                std::string addGarmentType;
+                std::cout << "What kind of clothes do you want to add?" << std::endl;
+                std::cin >> addGarmentType;
+                if (toLower(addGarmentType) == "blouse")
+                    {
+                        int numberBlouse;
+                        std::cout << "Add a blouse code and a blouse color from the wardrobe:\n";
+                        blouse1.describe();
+                        blouse2.describe();
+                        blouse3.describe();
+                        blouse4.describe();
+                        std::cin >> numberBlouse;
+                        if (numberBlouse == 1)
+                            myBarbie.addBlouse(blouse1);
+                        else if (numberBlouse == 2)
+                            myBarbie.addBlouse(blouse2);
+                        else if (numberBlouse == 3)
+                            myBarbie.addBlouse(blouse3);
+                        else if (numberBlouse == 4)
+                            myBarbie.addBlouse(blouse4);
+                        
+                    }  
+                    else if (toLower(addGarmentType) == "dress")
+                    {
+                        int numberDress;
+                        std::cout << "Add a dress code and a dress color from the wardrobe:\n";
+                        dress1.describe();
+                        dress2.describe();
+                        dress3.describe();
+                        dress4.describe();
+                        std::cin >> numberDress;
+                        if (numberDress == 1)
+                            myBarbie.addDress(dress1);
+                        else if (numberDress == 2)
+                            myBarbie.addDress(dress2);
+                        else if (numberDress == 3)
+                            myBarbie.addDress(dress3);
+                        else if (numberDress == 4)
+                            myBarbie.addDress(dress4);
+                    }
+                    else if (toLower(addGarmentType) == "skirt")
+                    {
+                        int numberSkirt;
+                        std::cout << "Add a skirt code and a skirt color from the wardrobe:\n";
+                        skirt1.describe();
+                        skirt2.describe();
+                        skirt3.describe();
+                        skirt4.describe();
+                        std::cin >> numberSkirt;
+                        if (numberSkirt == 1)
+                            myBarbie.addSkirt(skirt1);
+                        else if (numberSkirt == 2)
+                            myBarbie.addSkirt(skirt2);
+                        else if (numberSkirt == 3)
+                            myBarbie.addSkirt(skirt3);
+                        else if (numberSkirt == 4)
+                            myBarbie.addSkirt(skirt4);
+                    }
+                    else if (toLower(addGarmentType) == "pants")
+                    {
+                        int numberPants;
+                        std::cout << "Add a pants code and a pants color from the wardrobe:\n";
+                        pants1.describe();
+                        pants2.describe();
+                        pants3.describe();
+                        pants4.describe();
+                        std::cin >> numberPants;
+                        if (numberPants == 1)
+                            myBarbie.addPants(pants1);
+                        else if (numberPants == 2)
+                            myBarbie.addPants(pants2);
+                        else if (numberPants == 3)
+                            myBarbie.addPants(pants3);
+                        else if (numberPants == 4)
+                            myBarbie.addPants(pants4);
+                    }    
+                std::cout << "Do you want to add anything else?\nYes(1) \t No(0)\n";
+                std::cin >> addClothes;
+            }
+            bool removeClothes;
+            std::cout << "Do you want to remove some clothes?\nYes(1) \t No(0)" << std::endl;
+        }
+    }
 
     //function call through reference
     Garment& b1 = blouse1;
@@ -224,7 +358,6 @@ int main()
 
     describe_garment(pants2);
 
-    Barbie myBarbie(noneB, noneD, noneS, noneP);
 
     myBarbie.addBlouse(blouse2);
     Display(myBarbie);
