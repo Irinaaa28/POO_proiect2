@@ -35,6 +35,7 @@ public:
     virtual void describe_reverse() const = 0;
     virtual void garment_type() const = 0;
     virtual void addedGarment() const = 0;
+    virtual void removedGarment() const = 0;
     //implementing some functions from interface
     std::string getCode() const override
     {
@@ -80,6 +81,16 @@ public:
     {
         std::cout << "Blouse added successfully!" << std::endl;
     }
+    void removedGarment() const override
+    {
+        std::cout << "Blouse removed successfully!" << std::endl;
+    }
+
+    void setBlouse(const std::string& blouseName, const std::string& colorName) //setter
+    {
+        garmentCode = blouseName;
+        garmentColor = colorName;
+    }
     ~Blouse() = default; //{/*std::cout << "Destructor for blouse" << std::endl;*/}
 };
 
@@ -104,6 +115,16 @@ public:
     void addedGarment() const override
     {
         std::cout << "Dress added successfully!" << std::endl;
+    }
+    void removedGarment() const override
+    {
+        std::cout << "Dress removed successfully!" << std::endl;
+    }
+
+    void setDress(const std::string& dressName, const std::string& colorName) //setter
+    {
+        garmentCode = dressName;
+        garmentColor = colorName;
     }
     ~Dress() = default; //{/*std::cout << "Destructor for dress" << std::endl;*/}
 };
@@ -130,6 +151,16 @@ public:
     {
         std::cout << "Skirt added successfully!" << std::endl;
     }
+    void removedGarment() const override
+    {
+        std::cout << "Skirt removed successfully!" << std::endl;
+    }
+
+    void setSkirt(const std::string& skirtName, const std::string& colorName) //setter
+    {
+        garmentCode = skirtName;
+        garmentColor = colorName;
+    }
     ~Skirt() = default; //{/*std::cout << "Destructor for skirt" << std::endl;*/}
 };
 
@@ -154,6 +185,16 @@ public:
     void addedGarment() const override
     {
         std::cout << "Pants added successfully!" << std::endl;
+    }
+    void removedGarment() const override
+    {
+        std::cout << "Pants removed successfully!" << std::endl;
+    }
+
+    void setPants(const std::string& pantsName, const std::string colorName) //setter
+    {
+        garmentCode = pantsName;
+        garmentColor = colorName;
     }
     ~Pants() = default; //{/*std::cout << "Destructor for pants" << std::endl;*/}
 };
@@ -198,6 +239,34 @@ public:
         numberOfChanges++;
         pants.addedGarment();
     }
+    void removeBlouse()
+    {
+        currentBlouse.setBlouse("none", "none");
+        garmentCount--;
+        numberOfChanges++;
+        currentBlouse.removedGarment();
+    }
+    void removeDress()
+    {
+        currentDress.setDress("none", "none");
+        garmentCount--;
+        numberOfChanges++;
+        currentDress.removedGarment();
+    }
+    void removeSkirt()
+    {
+        currentSkirt.setSkirt("none", "none");
+        garmentCount--;
+        numberOfChanges++;
+        currentSkirt.removedGarment();
+    }
+    void removePants()
+    {
+        currentPants.setPants("none", "none");
+        garmentCount--;
+        numberOfChanges++;
+        currentPants.removedGarment();
+    }
     static int GetGarmentCount(void)
     {
         return garmentCount;
@@ -205,7 +274,7 @@ public:
     static void ViewChanges()
     {
         if (numberOfChanges == 0)
-            std::cout << "You haven't changed Barbie's look yet" << std::endl;
+            std::cout << "You haven't changed Barbie's look yet." << std::endl;
         else if (numberOfChanges == 1)  
             std::cout << "You've made " << numberOfChanges << " change at Barbie's look so far." << std::endl;
         else std::cout << "You've made " << numberOfChanges << " changes at Barbie's look so far." << std::endl;
@@ -257,7 +326,7 @@ int main()
             bool addClothes;
             std::cout << "Do you want to add some clothes?\nYes(1) \t No(0)" << std::endl;
             std::cin >> addClothes;
-            while (addClothes)
+            while (addClothes != 0)
             {
                 std::string addGarmentType;
                 std::cout << "What kind of clothes do you want to add?" << std::endl;
@@ -266,10 +335,10 @@ int main()
                     {
                         int numberBlouse;
                         std::cout << "Add a blouse code and a blouse color from the wardrobe:\n";
-                        blouse1.describe();
-                        blouse2.describe();
-                        blouse3.describe();
-                        blouse4.describe();
+                        describe_garment(blouse1);
+                        describe_garment(blouse2);
+                        describe_garment(blouse3);
+                        describe_garment(blouse4);
                         std::cin >> numberBlouse;
                         if (numberBlouse == 1)
                             myBarbie.addBlouse(blouse1);
@@ -285,10 +354,10 @@ int main()
                     {
                         int numberDress;
                         std::cout << "Add a dress code and a dress color from the wardrobe:\n";
-                        dress1.describe();
-                        dress2.describe();
-                        dress3.describe();
-                        dress4.describe();
+                        describe_garment(dress1);
+                        describe_garment(dress2);
+                        describe_garment(dress3);
+                        describe_garment(dress4);
                         std::cin >> numberDress;
                         if (numberDress == 1)
                             myBarbie.addDress(dress1);
@@ -303,10 +372,10 @@ int main()
                     {
                         int numberSkirt;
                         std::cout << "Add a skirt code and a skirt color from the wardrobe:\n";
-                        skirt1.describe();
-                        skirt2.describe();
-                        skirt3.describe();
-                        skirt4.describe();
+                        describe_garment(skirt1);
+                        describe_garment(skirt2);
+                        describe_garment(skirt3);
+                        describe_garment(skirt4);
                         std::cin >> numberSkirt;
                         if (numberSkirt == 1)
                             myBarbie.addSkirt(skirt1);
@@ -321,10 +390,10 @@ int main()
                     {
                         int numberPants;
                         std::cout << "Add a pants code and a pants color from the wardrobe:\n";
-                        pants1.describe();
-                        pants2.describe();
-                        pants3.describe();
-                        pants4.describe();
+                        describe_garment(pants1);
+                        describe_garment(pants2);
+                        describe_garment(pants3);
+                        describe_garment(pants4);
                         std::cin >> numberPants;
                         if (numberPants == 1)
                             myBarbie.addPants(pants1);
@@ -340,13 +409,31 @@ int main()
             }
             bool removeClothes;
             std::cout << "Do you want to remove some clothes?\nYes(1) \t No(0)" << std::endl;
+            std::cin >> removeClothes;
+            while (removeClothes != 0)
+            {
+                std::string removeGarmentType;
+                std::cout << "What kind of clothes do you want to remove?" << std::endl;
+                std::cin >> removeGarmentType;
+                if (toLower(removeGarmentType) == "blouse")
+                    myBarbie.removeBlouse();
+                else if (toLower(removeGarmentType) == "dress")
+                    myBarbie.removeDress();
+                else if (toLower(removeGarmentType) == "skirt")
+                    myBarbie.removeSkirt();
+                else if (toLower(removeGarmentType) == "pants")
+                    myBarbie.removePants();  
+                std::cout << "Do you want to remove anything else?\nYes(1) \t No(0)\n";
+                std::cin >> removeClothes;
+            }
+            std::cout << "Do you want to change something at Barbie's current look?\nYes(1) \t No(0)\n";
+            std::cin >> continuegame;
         }
     }
+    std::cout << "That's the end of the game!" << std::endl;
 
     //function call through reference
     Garment& b1 = blouse1;
-    b1.describe();
-    b1.describe_reverse();
     std::cout << b1.getColor() << std::endl;
     Garment& d1 = dress3;
     d1.garment_type();
@@ -354,12 +441,6 @@ int main()
     //VPTR through reference
     Garment& g1 = dress2;
     g1.describe();
-    std::cout << g1.getCode() << std::endl;
-
-    describe_garment(pants2);
-
-
-    myBarbie.addBlouse(blouse2);
     Display(myBarbie);
     myBarbie.ViewChanges();
     return 0;
