@@ -64,7 +64,7 @@ public:
     {
         std::cout << "This is a blouse" << std::endl;
     }
-    ~Blouse() {}
+    ~Blouse() {/*std::cout << "Destructor for blouse" << std::endl;*/}
 };
 
 class Dress : public Garment
@@ -85,7 +85,7 @@ public:
     {
         std::cout << "This is a dress" << std::endl;
     }
-    ~Dress() {}
+    ~Dress() {/*std::cout << "Destructor for dress" << std::endl;*/}
 };
 
 class Skirt : public Garment
@@ -106,7 +106,7 @@ public:
     {
         std::cout << "This is a skirt" << std::endl;
     }
-    ~Skirt() {}
+    ~Skirt() {/*std::cout << "Destructor for skirt" << std::endl;*/}
 };
 
 class Pants : public Garment
@@ -127,13 +127,75 @@ public:
     {
         std::cout << "These are pants" << std::endl;
     }
-    ~Pants() {}
+    ~Pants() {/*std::cout << "Destructor for pants" << std::endl;*/}
 };
+
+class Barbie
+{
+protected:
+    Blouse currentBlouse;
+    Dress currentDress;
+    Skirt currentSkirt;
+    Pants currentPants;
+    static int garmentCount;
+    static int numberOfChanges;
+public:
+    Barbie(const Blouse& currentBlouse, const Dress& currentDress, const Skirt& currentSkirt, const Pants& currentPants): currentBlouse(currentBlouse), currentDress(currentDress), currentSkirt(currentSkirt), currentPants(currentPants) {}
+    //Barbie(const std::string& blouseCode, const std::string& dressCode, const std::string& skirtCode, const std::string& pantsCode): currentBlouse(blouseCode, ""), currentDress(dressCode, ""), currentSkirt(skirtCode, ""), currentPants(pantsCode, "") {}
+    void addBlouse(const Blouse& blouse)
+    {
+        currentBlouse = blouse;
+        garmentCount++;
+        numberOfChanges++;
+    }
+    void addDress(const Dress& dress)
+    {
+        currentDress = dress;
+        garmentCount++;
+        numberOfChanges++;
+    }
+    void addSkirt(const Skirt& skirt)
+    {
+        currentSkirt = skirt;
+        garmentCount++;
+        numberOfChanges++;
+    }
+    void addPants(const Pants& pants)
+    {
+        currentPants = pants;
+        garmentCount++;
+        numberOfChanges++;
+    }
+    static int GetGarmentCount(void)
+    {
+        return garmentCount;
+    }
+    static void ViewChanges()
+    {
+        if (numberOfChanges == 0)
+            std::cout << "You haven't changed Barbie's look yet" << std::endl;
+        else if (numberOfChanges == 1)  
+            std::cout << "You've made " << numberOfChanges << " change at Barbie's look so far." << std::endl;
+        else std::cout << "You've made " << numberOfChanges << " changes at Barbie's look so far." << std::endl;
+    }
+};
+
+int Barbie::garmentCount = 0;
+int Barbie::numberOfChanges = 0;
 
 //using interface
 void describe_garment(const Garment& clothing)
 {
     clothing.describe();
+}
+void Display(const Barbie& myBarbie)
+{
+    const int numberOfClothes = Barbie::GetGarmentCount();
+    if (numberOfClothes == 0)
+        std::cout << "Barbie isn' wearing anything at the moment." << std::endl;
+    else if (numberOfClothes == 1)
+        std::cout << "Barbie is wearing 1 piece of clothing at the moment." << std::endl;
+    else std::cout << "Barbie is wearing " << numberOfClothes << " pieces of clothing at the moment." << std::endl;
 }
 
 int main()
@@ -161,5 +223,11 @@ int main()
     std::cout << g1.getCode() << std::endl;
 
     describe_garment(pants2);
+
+    Barbie myBarbie(noneB, noneD, noneS, noneP);
+
+    myBarbie.addBlouse(blouse2);
+    Display(myBarbie);
+    myBarbie.ViewChanges();
     return 0;
 }
