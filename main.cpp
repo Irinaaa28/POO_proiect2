@@ -91,6 +91,29 @@ public:
         garmentCode = blouseName;
         garmentColor = colorName;
     }
+    Blouse& operator=(const Blouse& other) //operator=
+    {
+        if(this != &other)
+        {
+            garmentCode = other.garmentCode;
+            garmentColor = other.garmentColor;
+        }
+        return *this;
+    }
+    Blouse(const Blouse& other) : Garment(other) {} // Constructor de copiere
+    friend std::ostream& operator<<(std::ostream& os, const Blouse& b) //operator<<
+    {
+        os << "Blouse: " << b.garmentCode << ", color: " << b.garmentColor;
+        return os;
+    }
+    friend std::istream& operator>>(std::istream& is, Blouse& b) //operator>>
+    {
+        std::cout << "Blouse_code: ";
+        is >> b.garmentCode;
+        std::cout << "color: ";
+        is >> b.garmentColor;
+        return is;
+    }
     ~Blouse() = default; //{/*std::cout << "Destructor for blouse" << std::endl;*/}
 };
 
@@ -125,6 +148,29 @@ public:
     {
         garmentCode = dressName;
         garmentColor = colorName;
+    }
+    Dress& operator=(const Dress& other) //operator=
+    {
+        if (this != &other)
+        {
+            garmentCode = other.garmentCode;
+            garmentColor = other.garmentColor;
+        }
+        return *this;
+    }
+    Dress(const Dress& other): Garment(other) {} //constructor de copiere
+    friend std::ostream& operator<<(std::ostream& os, const Dress& d) //operator<<
+    {
+        os << "Dress: " << d.garmentCode << ", color: " << d.garmentColor;
+        return os;
+    }
+    friend std::istream& operator>>(std::istream& is, Dress& d) //operator>>
+    {
+        std::cout << "Dress_code: ";
+        is >> d.garmentCode;
+        std::cout << "color: ";
+        is >> d.garmentColor;
+        return is;
     }
     ~Dress() = default; //{/*std::cout << "Destructor for dress" << std::endl;*/}
 };
@@ -161,6 +207,29 @@ public:
         garmentCode = skirtName;
         garmentColor = colorName;
     }
+    Skirt& operator=(const Skirt& other) //operator=
+    {
+        if (this != &other)
+        {
+            garmentCode = other.garmentCode;
+            garmentColor = other.garmentColor;
+        }
+        return *this;
+    }
+    Skirt(const Skirt& other): Garment(other) {} //constructor de copiere
+    friend std::ostream& operator<<(std::ostream& os, const Skirt& s) //operator<<
+    {
+        os << "Skirt: " << s.garmentCode << ", color: " << s.garmentColor;
+        return os;
+    }
+    friend std::istream& operator>>(std::istream& is, Skirt& s) //operator>>
+    {
+        std::cout << "Skirt_code: ";
+        is >> s.garmentCode;
+        std::cout << "color: ";
+        is >> s.garmentColor;
+        return is;
+    }
     ~Skirt() = default; //{/*std::cout << "Destructor for skirt" << std::endl;*/}
 };
 
@@ -195,6 +264,29 @@ public:
     {
         garmentCode = pantsName;
         garmentColor = colorName;
+    }
+    Pants& operator=(const Pants& other) //operator=
+    {
+        if (this != &other)
+        {
+            garmentCode = other.garmentCode;
+            garmentColor = other.garmentColor;
+        }
+        return *this;
+    }
+    Pants(const Pants& other): Garment(other) {} //constructor de copiere
+    friend std::ostream& operator<<(std::ostream& os, const Pants& p) //operator<<
+    {
+        os << "Pants: " << p.garmentCode << ", color: " << p.garmentColor;
+        return os;
+    }
+    friend std::istream& operator>>(std::istream& is, Pants& p) //operator>>
+    {
+        std::cout << "Pants_code: ";
+        is >> p.garmentCode;
+        std::cout << "color: ";
+        is >> p.garmentColor;
+        return is;
     }
     ~Pants() = default; //{/*std::cout << "Destructor for pants" << std::endl;*/}
 };
