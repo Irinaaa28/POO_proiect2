@@ -820,8 +820,26 @@ int main()
     Display(myBarbie);
     for (Garment *cloth : outfit)
     {
-        cloth->garment_type();
-        cloth->describe();
+        if (Blouse* blouse = dynamic_cast<Blouse*>(cloth))
+        {
+            //blouse->garment_type();
+            blouse->describe();
+        }
+        else if (Dress* dress = dynamic_cast<Dress*>(cloth))
+        {
+            //dress->garment_type();
+            dress->describe();
+        }
+        else if (Skirt* skirt = dynamic_cast<Skirt*>(cloth))
+        {
+            //skirt->garment_type();
+            skirt->describe();
+        }
+        else if (Pants* pants = dynamic_cast<Pants*>(cloth))
+        {
+            //pants->garment_type();
+            pants->describe();
+        }
         delete cloth;
     }
     std::cout << "That's the end of the game!" << std::endl;
