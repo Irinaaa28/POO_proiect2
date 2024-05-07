@@ -29,6 +29,7 @@ protected:
     std::string garmentCode;
     std::string garmentColor;
 public:
+    //Garment() : garmentCode(""), garmentColor("") {}
     Garment(const std::string& garmentCode, const std::string& garmentColor): garmentCode(garmentCode), garmentColor(garmentColor) {} //constructor
     //pure virtual functions
     virtual void describe() const = 0;
@@ -114,6 +115,23 @@ public:
         is >> b.garmentColor;
         return is;
     }
+    Blouse(Blouse&& other) noexcept: Garment(std::move(other)) //move constructor
+    {
+        other.garmentCode.clear();
+        other.garmentColor.clear();
+    }
+    Blouse& operator=(Blouse&& other) noexcept //move assignment operator for Blouse
+    {
+        if (this != &other)
+        {
+            /*garmentCode = std::move(other.garmentCode);
+            garmentColor = std::move(other.garmentColor);
+            other.garmentCode.clear();
+            other.garmentColor.clear();*/
+            Garment::operator=(std::move(other));
+        }
+        return *this;
+    }
     ~Blouse() = default; //{/*std::cout << "Destructor for blouse" << std::endl;*/}
 };
 
@@ -171,6 +189,23 @@ public:
         std::cout << "color: ";
         is >> d.garmentColor;
         return is;
+    }
+    Dress(Dress&& other) noexcept: Garment(std::move(other)) //move constructor
+    {
+        other.garmentCode.clear();
+        other.garmentColor.clear();
+    }
+    Dress& operator=(Dress&& other) noexcept //move assignment operator for Dress
+    {
+        if (this != &other)
+        {
+            /*garmentCode = std::move(other.garmentCode);
+            garmentColor = std::move(other.garmentColor);
+            other.garmentCode.clear();
+            other.garmentColor.clear();*/
+            Garment::operator=(std::move(other));
+        }
+        return *this;
     }
     ~Dress() = default; //{/*std::cout << "Destructor for dress" << std::endl;*/}
 };
@@ -230,6 +265,23 @@ public:
         is >> s.garmentColor;
         return is;
     }
+    Skirt(Skirt&& other) noexcept: Garment(std::move(other)) //move constructor
+    {
+        other.garmentCode.clear();
+        other.garmentColor.clear();
+    }
+    Skirt& operator=(Skirt&& other) noexcept //move assignment operator for Skirt
+    {
+        if (this != &other)
+        {
+            /*garmentCode = std::move(other.garmentCode);
+            garmentColor = std::move(other.garmentColor);
+            other.garmentCode.clear();
+            other.garmentColor.clear();*/
+            Garment::operator=(std::move(other));
+        }
+        return *this;
+    }
     ~Skirt() = default; //{/*std::cout << "Destructor for skirt" << std::endl;*/}
 };
 
@@ -288,76 +340,122 @@ public:
         is >> p.garmentColor;
         return is;
     }
+    Pants(Pants&& other) noexcept: Garment(std::move(other)) //move constructor
+    {
+        other.garmentCode.clear();
+        other.garmentColor.clear();
+    }
+    Pants& operator=(Pants&& other) noexcept //move assignment operator for Pants
+    {
+        if (this != &other)
+        {
+            /*garmentCode = std::move(other.garmentCode);
+            garmentColor = std::move(other.garmentColor);
+            other.garmentCode.clear();
+            other.garmentColor.clear();*/
+            Garment::operator=(std::move(other));
+        }
+        return *this;
+    }
     ~Pants() = default; //{/*std::cout << "Destructor for pants" << std::endl;*/}
 };
 
 class Barbie
 {
 protected:
-    Blouse currentBlouse;
-    Dress currentDress;
-    Skirt currentSkirt;
-    Pants currentPants;
+    Blouse* currentBlouse;
+    Dress* currentDress;
+    Skirt* currentSkirt;
+    Pants* currentPants;
     static int garmentCount;
     static int numberOfChanges;
 public:
-    Barbie(const Blouse& currentBlouse, const Dress& currentDress, const Skirt& currentSkirt, const Pants& currentPants): currentBlouse(currentBlouse), currentDress(currentDress), currentSkirt(currentSkirt), currentPants(currentPants) {}
+    //Barbie(const Blouse& currentBlouse, const Dress& currentDress, const Skirt& currentSkirt, const Pants& currentPants): currentBlouse(currentBlouse), currentDress(currentDress), currentSkirt(currentSkirt), currentPants(currentPants) {}
     //Barbie(const std::string& blouseCode, const std::string& dressCode, const std::string& skirtCode, const std::string& pantsCode): currentBlouse(blouseCode, ""), currentDress(dressCode, ""), currentSkirt(skirtCode, ""), currentPants(pantsCode, "") {}
+    Barbie(): currentBlouse(nullptr), currentDress(nullptr), currentSkirt(nullptr), currentPants(nullptr) {}
     void addBlouse(const Blouse& blouse)
     {
-        currentBlouse = blouse;
+        if (currentBlouse)
+            delete currentBlouse;
+        currentBlouse = new Blouse(blouse);
         garmentCount++;
         numberOfChanges++;
-        blouse.addedGarment();
+        currentBlouse->addedGarment();
     }
     void addDress(const Dress& dress)
     {
-        currentDress = dress;
+        if (currentDress)
+            delete currentDress;
+        currentDress = new Dress(dress);
         garmentCount++;
         numberOfChanges++;
-        dress.addedGarment();
+        currentDress->addedGarment();
     }
     void addSkirt(const Skirt& skirt)
     {
-        currentSkirt = skirt;
+        if (currentSkirt)
+            delete currentSkirt;
+        currentSkirt = new Skirt(skirt);
         garmentCount++;
         numberOfChanges++;
-        skirt.addedGarment();
+        currentSkirt->addedGarment();
     }
     void addPants(const Pants& pants)
     {
-        currentPants = pants;
+        if (currentPants)
+            delete currentPants;
+        currentPants = new Pants(pants);
         garmentCount++;
         numberOfChanges++;
-        pants.addedGarment();
+        currentPants->addedGarment();
     }
     void removeBlouse()
     {
-        currentBlouse.setBlouse("none", "none");
-        garmentCount--;
-        numberOfChanges++;
-        currentBlouse.removedGarment();
+        if(currentBlouse)
+        {
+            currentBlouse->removedGarment();
+            delete currentBlouse;
+            currentBlouse = nullptr;
+            garmentCount--;
+            numberOfChanges++;
+        }
+        else std::cout << "Barbie is not wearing any blouse.\n";
     }
     void removeDress()
     {
-        currentDress.setDress("none", "none");
-        garmentCount--;
-        numberOfChanges++;
-        currentDress.removedGarment();
+        if (currentDress)
+        {
+            currentDress->removedGarment();
+            delete currentDress;
+            currentDress = nullptr;
+            garmentCount--;
+            numberOfChanges++;
+        }
+        else std::cout << "Barbie is not wearing any dress.\n";
     }
     void removeSkirt()
     {
-        currentSkirt.setSkirt("none", "none");
-        garmentCount--;
-        numberOfChanges++;
-        currentSkirt.removedGarment();
+        if (currentSkirt)
+        {
+            currentSkirt->removedGarment();
+            delete currentSkirt;
+            currentSkirt = nullptr;
+            garmentCount--;
+            numberOfChanges++;
+        }
+        else std::cout << "Barbie is not wearing any skirt.\n";
     }
     void removePants()
     {
-        currentPants.setPants("none", "none");
-        garmentCount--;
-        numberOfChanges++;
-        currentPants.removedGarment();
+        if (currentPants)
+        {
+            currentPants->removedGarment();
+            delete currentPants;
+            currentPants = nullptr;
+            garmentCount--;
+            numberOfChanges++;
+        }
+        else std::cout << "Barbie is not wearing any pants.\n";
     }
     static int GetGarmentCount(void)
     {
@@ -371,7 +469,13 @@ public:
             std::cout << "You've made " << numberOfChanges << " change at Barbie's look so far." << std::endl;
         else std::cout << "You've made " << numberOfChanges << " changes at Barbie's look so far." << std::endl;
     }
-    ~Barbie() = default;
+    ~Barbie()
+    {
+        delete currentBlouse;
+        delete currentDress;
+        delete currentSkirt;
+        delete currentPants;
+    }
 };
 
 int Barbie::garmentCount = 0;
@@ -402,7 +506,7 @@ int main()
     Dress noneD("none", "none");
     Skirt noneS("none", "none");
     Pants noneP("none", "none");
-    Barbie myBarbie(noneB, noneD, noneS, noneP);
+    Barbie myBarbie;
 
     char key;
     bool continuegame;
@@ -518,12 +622,18 @@ int main()
                 std::cout << "Do you want to remove anything else?\nYes(1) \t No(0)\n";
                 std::cin >> removeClothes;
             }
+            bool change;
+            std::cout << "Do you want to see how many changes have you done so far?\nYes(1) \t No(0)\n";
+            std::cin >> change;
+            if (change == 1)
+                myBarbie.ViewChanges();
             std::cout << "Do you want to change something at Barbie's current look?\nYes(1) \t No(0)\n";
             std::cin >> continuegame;
         }
     }
     std::cout << "That's the end of the game!" << std::endl;
 
+/*
     //function call through reference
     Garment& b1 = blouse1;
     std::cout << b1.getColor() << std::endl;
@@ -535,5 +645,6 @@ int main()
     g1.describe();
     Display(myBarbie);
     myBarbie.ViewChanges();
+*/
     return 0;
 }
