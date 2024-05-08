@@ -9,6 +9,21 @@ Long story short, I used plenty of classes to distinguish every piece of clothin
 * Using the principle of inheritance, I created four derived classes from the "Garment" class, representing different types of clothing: "Blouse", "Dress", "Pants" and "Skirt".
 * In order to prevent the game from ending due to an eventual error, I considered and implemented some classes for all possible errors;
 * Then, I created a class called "Barbie", which represents the Barbie doll itself. Through the "Barbie" class, we upgrade her physical appearance by repeatedly adding and removing various clothes.
+## What do these classes contain?
 Within these classes I implemented:
-  
-##
+* different void functions for describing, adding and removing clothes
+* default constructors
+* getters
+* setters
+* operator=
+* copy constructors
+* operator<<
+* operator>>
+* move constructors
+* move assignment operators
+* destructors.
+For the error claases, I only wrote a default constructor where to show the text for every error.
+## Is there anything else besides classes in the game?
+Of course. I implemented void functions to remove clothes, to change all the letters from a word in small ones and to show Barbie's final look.
+## Ok, but how does the main look like?
+Firstly, I added default blouses, dresses, skirts and pants which to dress up Barbie with. The main code is a really interactive one, because you can add and remove clothes by your preference. When you decide finishing the game, there will be showed Barbie's final look.
